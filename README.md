@@ -18,7 +18,13 @@ dependencies:
 require "ooxml"
 ```
 
-TODO: Write usage instructions here
+```crystal
+spreadsheet = OOXML::Spreadsheet.new(OOXML::Document.new("spreadsheet.xlsx"))
+
+spreadsheet.worksheets.each do |worksheet|
+    puts worksheet.name
+end
+```
 
 ## Development
 
