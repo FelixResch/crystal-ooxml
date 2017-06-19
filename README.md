@@ -27,17 +27,30 @@ To read data from a worksheet use the following syntax:
 ```crystal
 require "ooxml"
 
-spreadsheet = OOXML::Spreadsheet.new(OOXML::Document.new("spreadsheet.xlsx"))
+workbook = OOXML::Workbook.new(OOXML::Document.new("spreadsheet.xlsx"))
 
-spreadsheet.worksheets.each do |worksheet|
+workbook.worksheets.each do |worksheet|
     puts worksheet.name
 end
 
-users = spreadsheet.worksheets["Users"]
+users = workbook.worksheets["Users"]
 
 puts users["A2"] # => prints Alex
-
 ```
+
+## Roadmap
+
+For an initial version these things still need to be done:
+
+- [ ] Writing of Workbook files
+- [ ] Unified table-stuctured data interface for crystal
+- [ ] Plugin System for function evaluation
+- [ ] Documentation and Optimization
+
+Currently the following points are in development or are already finished:
+
+- [x] Reading of Workbook files
+
 
 ## Development
 

@@ -58,7 +58,7 @@ module OOXML
         def file_by_relation_id(relation_id : String)
             @relations.each do |relation|
                 if(relation.id == relation_id)
-                    return relation
+                    yield relation
                 end
             end
             nil
@@ -68,12 +68,14 @@ module OOXML
             @document.open_xml(@base_path + "/" + filename)
         end
         
-        def open_xml(filename : String, &block)
-            @document.open_xml(@base_path + "/" + filename, &block)
+        def open_xml(filename : String)
+            @document.open_xml(@base_path + "/" + filename) do |xml|
+                yield xml
+            end
         end
         
         def content_type_of?(filename : String)
-            @Document.content_type_of?(@base_path + "/" + filename)
+            @document.content_type_of?(@base_path + "/" + filename)
         end
         
     end
@@ -83,6 +85,8 @@ module OOXML
         def initialize(@id : String, @type : String, @target : String); end
             
         def id() @id; end
+        def type() @type; end
+        def target() @target; end
     end
     
     class Worksheet
@@ -99,7 +103,7 @@ module OOXML
                 if !((content_type = @workbook.content_type_of?(relation.target)) && content_type == OOXML::CONTENT_TYPE_WORKSHEET)
                     raise OOXML::OOXMLWorkbookException.new("Invalid content_type for worksheet")
                 end
-                @workbook.open_xml relation.target do |xml|
+                @workbook.open_xml(relation.target) do |xml|
                     puts xml.to_s
                 end
             end
