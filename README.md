@@ -1,6 +1,6 @@
-# ooxml
+# Crystal OOXML library
 
-TODO: Write a description here
+This library offers very basic support for reading and writing data from [OOXML]() files. For now only spreadsheets are supported, but support for other formats is planned as well.
 
 ## Installation
 
@@ -14,16 +14,29 @@ dependencies:
 
 ## Usage
 
-```crystal
-require "ooxml"
-```
+Imagine a spreadsheet with data like this:
+
+|   | A | B | C | D | E |
+|---|---|---|---|---|---|
+| 1 | Name | Birthday | Function | | |
+| 2 | Alex | today | none | | |
+| 3 | | | | | |
+
+To read data from a worksheet use the following syntax:
 
 ```crystal
+require "ooxml"
+
 spreadsheet = OOXML::Spreadsheet.new(OOXML::Document.new("spreadsheet.xlsx"))
 
 spreadsheet.worksheets.each do |worksheet|
     puts worksheet.name
 end
+
+users = spreadsheet.worksheets["Users"]
+
+puts users["A2"] # => prints Alex
+
 ```
 
 ## Development
